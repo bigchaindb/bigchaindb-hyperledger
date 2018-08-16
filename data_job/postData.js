@@ -12,13 +12,13 @@ let count = 0
 var j = schedule.scheduleJob('*/5 * * * * *', function () {
 
     console.log("Executing create asset", count)
-    const date = Date.now()
+    const date = {
+        "timestamp": Date.now()}
     const asset = {
         "hyperledger": "example",
-        "number": count
+        "number": count.toString()
     }
     const transaction = bdb.createNewAsset(keypair, asset, date)
-    console.log(transaction.id)
     count++
 
 })
