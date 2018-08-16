@@ -11,7 +11,6 @@ How to use BigchainDB data in HyperLedger chain code? What can be integration pa
 The solution approach is based on how Oraclize works for Ethereum. Following are the steps involved,
 
 1. HLF chain code is called by an external party (dapp). This chain code has the built in functionality to call a REST API from one of its functions.
-1. The chain code is called by the dapp with the parameters and BigchainDB query.
 1. The chain code runs the logic in it and calls the REST API on the backend or oracle component. https://hyperledger.github.io/composer/latest/integrating/call-out
 1. The backend oracle component is a REST API based service which sits between HLF and BDB.
 1. The chain code call the oracle service with 2 parameters,
