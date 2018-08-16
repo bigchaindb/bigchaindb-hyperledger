@@ -1,4 +1,4 @@
-# BigchainDB - HyperLedger Fabric Integration Hackathon with TheLedger team
+# BigchainDB - HyperLedger Fabric Integration
 
 ## Problem Statement
 
