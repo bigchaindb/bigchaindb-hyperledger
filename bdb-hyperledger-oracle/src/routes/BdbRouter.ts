@@ -8,7 +8,6 @@ export class BdbRouter {
    */
   constructor() {
     this.router = Router();
-    this.init();
   }
 
   public bdb(req: Request, res: Response, next: NextFunction) {
