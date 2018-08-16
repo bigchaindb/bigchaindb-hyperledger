@@ -4,13 +4,13 @@
 
 Creates a company asset in the platform and returns assetId of company transaction. Asset is owned by publicKey sent in with other data on company creation.
 
-**Endpoint:** POST `/api/v1/bdb`
+**Endpoint:** POST `/oraclequery`
 
 **Input Parameters:**
 
 ```json
 {
-    "assetId": "<assetId>",
+    "query": "<assetId>",
     "callback": "<callback code>"
 }
 ```
