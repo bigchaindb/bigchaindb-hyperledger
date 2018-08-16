@@ -1,0 +1,29 @@
+
+# dependencies
+/node_modules
+
+# IDE
+/.idea
+/.awcache
+/.vscode
+
+# misc
+npm-debug.log
+
+# tests
+/test
+/coverage
+/.nyc_output
+
+# dist
+/dist
+
+.env
+.DS_Store
+.idea
+
+vendor
+.idea
+
+
+

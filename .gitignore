@@ -59,3 +59,38 @@ typings/
 
 # next.js build output
 .next
+
+
+# dependencies
+/node_modules
+
+# IDE
+/.idea
+/.awcache
+/.vscode
+
+# misc
+npm-debug.log
+
+# tests
+/test
+/coverage
+/.nyc_output
+
+# dist
+/dist
+
+test-reports/
+
+.env
+.DS_Store
+.idea
+
+vendor
+.idea
+
+src/common/config/creds/*
+coverage
+yarn-error.log
+package-lock.json
+
