@@ -4,6 +4,7 @@ import express from "express";
 import * as bodyParser from "body-parser";
 import compression from "compression";
 import morgan from "morgan";
+import { handleErrors } from './middlewares/errorHandler';
 
 // routes
 import BdbRouter from "./routes/BdbRouter";
@@ -26,7 +27,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(compression());
 // routes
-app.use("/api/v1/bdb", BdbRouter);
+app.use("/", BdbRouter);
+//handle thrown errors
+app.use(handleErrors);
 // listen
 const server = app.listen(config.app.port);
 server.on("listening", onListening);
