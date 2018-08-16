@@ -25,11 +25,11 @@ export class BdbRouter {
         throw new Error(`No Data availble for query ${req.body.query}`);
       }
       let value = processCallback(req.body.callback, assetData);
-      res.send({status: "success", assetData, processedResult: value});
+      res.status(202).send({status: "success", assetData, processedResult: value});
     }
     catch(error){
       next(new Error(error));
-    } 
+    }
   }
 
   /**
@@ -39,7 +39,6 @@ export class BdbRouter {
   init() {
     this.router.post("/", validate({body: PostRequest}), this.bdb);
   }
-
 }
 
 // Create the bdbRouter, and export its configured Express.Router

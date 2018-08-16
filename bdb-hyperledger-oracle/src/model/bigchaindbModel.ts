@@ -15,7 +15,6 @@ export default class BigchainDBModel {
         this.appKey =  app_key;
         this.appId = app_id;
     }
-
    
     /**
      * finds asset from BigchainDB node and returns 
@@ -44,7 +43,6 @@ export default class BigchainDBModel {
 
        return data;  
     }
-    
 }
 
 
