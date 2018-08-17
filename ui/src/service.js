@@ -1,19 +1,15 @@
 import io from 'socket.io-client';
 
-
-const WS_PATH = "localhost:3333"
-
 export function wsListen(handleEvent) {
-    console.log(`subscribing to `, WS_PATH); // eslint-disable-line no-console
+    
+    let socket = io.connect('http://localhost:4000');
 
-    let socket = io.connect('http://localhost');
-
-    socket.on('connect', function (data) {
-        console.log(`connected to `, WS_PATH)
+    socket.on('connect', function(data){
+        console.log(`Server : Greetings from BDB-Hyperledger-Oracle...`)
     });
-
-    socket.on('event', function (data) {
-        console.log(data);
+    
+    socket.on('data', function (data) {
+        console.log(`Server : ${data}`);
 
     });
     socket.on('disconnect', function () {

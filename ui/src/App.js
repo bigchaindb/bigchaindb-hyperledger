@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {callChaincode, wsListen}  from './service.js';
 
@@ -29,31 +28,28 @@ class App extends Component {
     event.preventDefault();
   }
   render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label>
-              Value:
-              <input type="text" name="inputValue" placeholder="value" value={this.state.inputValue} onChange={this.handleValueChange.bind(this)}/>
-            </label>
+    return(
+      <section className="jumbotron text-center">
+        <div className="container">
+          <h1 className="jumbotron-heading">BigchainDB - Hyperledger - Oracle</h1>
+          <div className="lead-body">
+            <form className="inputForm" onSubmit={this.handleSubmit}>
+              <div>
+                <label htmlFor="inputValue" className="sr-only">Value:</label>
+                <input type="text" name="inputValue" id="inputValue" className="form-control" placeholder="Value" value={this.state.inputValue} onChange={this.handleValueChange.bind(this)}/>
+              </div>
+              <div>
+                <label htmlFor="inputCallback" className="sr-only">Callback:</label>
+                <textarea type="text" name="inputCallback" id="inputCallback" className="form-control" placeholder="Code callback" value={this.state.inputCallback} onChange={this.handleCallbackChange.bind(this)}></textarea>
+              </div>
+              <div>
+                <button className="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+              </div>
+            </form>
           </div>
-          <div>
-            <label>
-              Callback:
-              <input type="text" name="inputCallback" placeholder="callback" value={this.state.inputCallback} onChange={this.handleCallbackChange.bind(this)}/>
-            </label>
-          </div>
-          <div>
-            <input type="submit" value="Submit" />
-          </div>
-        </form>
-      </div>
-    );
+        </div>
+      </section>
+    )
   }
 }
 
