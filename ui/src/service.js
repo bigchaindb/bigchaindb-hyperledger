@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 
 const WS_PATH = "localhost:3333"
 
-export default function wsListen(handleEvent) {
+export function wsListen(handleEvent) {
     console.log(`subscribing to `, WS_PATH); // eslint-disable-line no-console
 
     let socket = io.connect('http://localhost');
@@ -22,7 +22,7 @@ export default function wsListen(handleEvent) {
 
 }
 
-export default async function callChaincode(asset, callback) {
+export async function callChaincode(asset, callback) {
 
     const rawResponse = await fetch('https://chaincode.org/post', {
         method: 'POST',
