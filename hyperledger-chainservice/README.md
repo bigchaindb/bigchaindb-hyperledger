@@ -1,6 +1,6 @@
 <center>
 
-![](https://theledger.be/images/press-kit/logo_theledger_black.svg)
+![](https://image.ibb.co/gePQce/black_1x.png)
 # Chainservice for interaction with the Fabric network
 [![Build Status](https://travis-ci.org/wearetheledger/hyperledger-typescript-boilerplate.svg?branch=master)](https://travis-ci.org/wearetheledger/hyperledger-typescript-boilerplate) 
 [![Greenkeeper badge](https://badges.greenkeeper.io/wearetheledger/hyperledger-typescript-boilerplate.svg)](https://greenkeeper.io/)
