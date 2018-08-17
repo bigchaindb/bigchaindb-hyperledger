@@ -3,7 +3,7 @@ import BigchainDBModel from '../model/bigchaindbModel';
 import validate from '../middlewares/validator';
 import PostRequest from '../schema/PostRequest';
 import { io } from '../index';
-import * as debug from "debug";
+import  debug from 'debug';
 
 let connectedClients = [];
 
