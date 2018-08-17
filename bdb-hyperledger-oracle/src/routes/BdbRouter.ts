@@ -3,6 +3,7 @@ import BigchainDBModel from '../model/bigchaindbModel';
 import validate from '../middlewares/validator';
 import PostRequest from '../schema/PostRequest';
 import { io } from '../index';
+import * as debug from "debug";
 
 let connectedClients = [];
 
@@ -25,15 +26,19 @@ export class BdbRouter {
   public async bdb(req: Request, res: Response, next: NextFunction) {
     try{
       //find Asset from BigchainDB
+      debug("Getting data for " + req.body.query)
       let assetData = await bigchaindbModel.getAssetData(req.body.query);
       if(!assetData){
         throw new Error(`No Data availble for query ${req.body.query}`);
       }
+      debug("Processing callback for " + req.body.query)
       let result = processCallback(req.body.callback, assetData);
+      debug("Sending success " + req.body.query)
       res.status(202).send({status: "success", assetData, processedResult: result});
       //send data to client over websockets
+      debug("Sending to websocket " + req.body.query)
       sendDataOverWebSocket(connectedClients, result);
-  
+
     }
     catch(error){
       next(new Error(error));
