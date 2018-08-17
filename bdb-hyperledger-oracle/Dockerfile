@@ -10,10 +10,6 @@ RUN apt-get install -y nodejs
 
 WORKDIR /rest_api
 
-COPY package.json .
+COPY  . .
 
 RUN npm install
-
-COPY . .
-
-RUN npm run build
