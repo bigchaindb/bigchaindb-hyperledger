@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "babel": "babel ./src -d ./dist -s",
     "start": "npm run serve",
     "serve": "ts-node ./src/index.ts",
     "watch": "npm run watch-ts",
@@ -14,11 +15,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "bigchaindb-driver": "^4.1.0",
     "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "debug": "^3.1.0",
     "express": "^4.16.3",
-    "express-validator": "^5.3.0",
+    "express-json-validator-middleware": "^1.2.3",
     "morgan": "^1.9.0"
   },
   "devDependencies": {
@@ -29,9 +31,9 @@
     "@types/morgan": "^1.7.35",
     "@types/node": "^9.4.6",
     "sequelize-cli": "^4.0.0",
+    "ts-node": "^7.0.1",
     "tslint": "^5.11.0",
-    "typescript": "^2.2.1",
-    "ts-node": "^7.0.1"
+    "typescript": "^2.2.1"
   },
   "author": "",
   "license": "ISC"

@@ -17,11 +17,15 @@ Creates a company asset in the platform and returns assetId of company transacti
 
 **Success Return Value:**
 
+If the input is valid, then an `Accepted` status code is returned. The query and callback will continue execution.
+
 ```code
-200 HTTP status response
+202 HTTP status response
 ```
 
 **Error Return Value:**
+
+If the input is **not** valid, then an `Bad Request` status code is returned.
 
 ```code
 400 HTTP status response
