@@ -18,7 +18,7 @@ export abstract class ChainService {
 
     // TODO: refactor
 
-    protected constructor(public hlfConfig: HlfConfig, @Inject('IEventService') private eventService: IEventService) {
+    protected constructor(public hlfConfig: HlfConfig) {
     }
 
     /**
