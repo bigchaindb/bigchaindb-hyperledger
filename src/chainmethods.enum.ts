@@ -3,4 +3,5 @@ export enum ChainMethod {
     'createCar' = 'createCar',
     'queryCar' = 'queryCar',
     'changeCarOwner' = 'changeCarOwner',
+    'makeCall' = 'makeCall',
 }

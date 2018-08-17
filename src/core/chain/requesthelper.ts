@@ -35,18 +35,21 @@ export class RequestHelper {
      * @returns {Promise<InvokeResult>}
      * @memberof RequestHelper
      */
-    public invokeRequest(chainMethod: ChainMethod, params: Object, userId: string, invokeAlways = false, transientMap ?: Object): Promise<InvokeResult | any> {
+    public invokeRequest(chainMethod: ChainMethod, params: Object, userId: string, eventName?:string, invokeAlways = false, transientMap ?: Object): Promise<InvokeResult | any> {
         const args = [JSON.stringify(params)];
 
         if (EnvConfig.BYPASS_QUEUE) {
             return this.hlfClient
-                .invoke(chainMethod, args, transientMap)
+                .invoke(chainMethod, args, transientMap, eventName)
                 .then((response) => {
+                    console.log('Response:');
+                    console.log(response);
                     Log.hlf.debug('Invoke successfully executed: ', response);
                     this.eventService.triggerSuccess(userId, chainMethod, params);
                     return {txHash: response};
                 })
                 .catch((error) => {
+                    console.log(error);
                     Log.hlf.error(`${chainMethod}`, error);
                     this.eventService.triggerError(userId, chainMethod, params);
                     throw error;

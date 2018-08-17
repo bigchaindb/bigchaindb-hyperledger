@@ -1,7 +1,7 @@
 import { Body, Controller, Get, NotFoundException, Param, Post, Req } from '@nestjs/common';
 import { CarService } from './car.service';
 import { CarDto } from './car.model';
-import { ApiOAuth2Auth, ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
+import { ApiOAuth2Auth, ApiOperation, ApiResponse, ApiUseTags, ApiImplicitHeader } from '@nestjs/swagger';
 import { InvokeResult } from '../common/utils/invokeresult.model';
 
 @ApiUseTags('cars')
@@ -33,6 +33,25 @@ export class CarController {
     })
     getAll(): Promise<CarDto[]> {
         return this.carService.getAll();
+    }
+
+    /**
+     * Get all cars
+     *
+     * @returns {Promise<CarDto[]>}
+     * @memberof CarController
+     */
+    @Get('makeCall')
+    @ApiOperation({title: 'Make Api call'})
+    // @ApiOAuth2Auth(['read'])
+    @ApiResponse({
+        status: 200,
+        description: 'Returns a list of car objects',
+        type: String,
+        isArray: false
+    })
+    makeCall( ): Promise<any> {
+        return this.carService.makeCall();
     }
 
     /**
@@ -74,8 +93,8 @@ export class CarController {
         description: 'The record has been successfully created.',
     })
     @ApiOAuth2Auth(['write'])
-    create(@Body() carDto: CarDto, @Req() req): Promise<InvokeResult> {
-        return this.carService.create(carDto, req.auth);
+    create(@Body() carDto: CarDto): Promise<InvokeResult> {
+        return this.carService.create(carDto);
     }
 
 }

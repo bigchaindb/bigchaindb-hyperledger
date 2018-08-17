@@ -10,6 +10,7 @@ import {
 } from 'fabric-client';
 import { Log } from '../../common/utils/logging/log.service';
 import Client = require('fabric-client');
+import { STS } from '../../../node_modules/aws-sdk';
 
 @Injectable()
 export abstract class ChainService {
@@ -203,6 +204,49 @@ export abstract class ChainService {
                     Log.hlf.debug(HlfInfo.COMMITTED_ON_PEER, eh.getPeerAddr());
                     resolve(status);
                 }
+            });
+        });
+    }
+
+    /**
+     * Listen and wait for transaction comitting on peer
+     *
+     * @param ccEvent
+     * @returns {Promise<any>}
+     */
+    protected registerCCEvent(ccEvent: string): Promise<any> {
+        
+        // set the transaction listener and set a timeout of 30sec
+        // if the transaction did not get committed within the timeout period,
+        // fail the test
+        let eh = this.hlfConfig.client.newEventHub();
+        eh.setPeerAddr(this.hlfConfig.options.eventUrl, {});
+        Log.hlf.info(HlfInfo.CONNECTING_EVENTHUB);
+        eh.connect();
+
+        return new Promise((resolve, reject) => {
+            let handle = setTimeout(() => {
+                eh.disconnect();
+                Log.hlf.error('EVENT_ERROR', ccEvent);
+                reject();
+            }, 30000);
+            eh.registerChaincodeEvent('fabcar', ccEvent, (event) => {
+                clearTimeout(handle);
+                eh.unregisterChaincodeEvent(ccEvent);
+                eh.disconnect();
+                
+                let eventPayload = JSON.parse(event.payload.toString());
+                console.log(eventPayload);
+
+                if (eventPayload.status !== 'success') {
+                    console.log('hier');
+                    Log.hlf.error('EVENT_ERROR', eventPayload.status);
+                    reject(eventPayload);
+                } else {
+                    Log.hlf.debug('EVENT_SUCCESS', eventPayload);
+                    resolve(eventPayload);
+                }
+                
             });
         });
     }
