@@ -18,20 +18,21 @@ export function wsListen(handleEvent) {
 
 }
 
-export async function callChaincode(asset, callback) {
+export async function callChaincode(assetId, callback) {
 
-    const rawResponse = await fetch('https://chaincode.org/post', {
+    const rawResponse = await fetch('http://localhost:5000/numbers', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: {
-            asset,
+        body: JSON.stringify({
+            assetId,
             callback
-        }
+            })
     });
     const content = await rawResponse.json();
 
     console.log(content);
+    return true
 }
