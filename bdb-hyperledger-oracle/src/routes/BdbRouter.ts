@@ -37,7 +37,7 @@ export class BdbRouter {
    * endpoints.
    */
   init() {
-    this.router.post("/", validate({body: PostRequest}), this.bdb);
+    this.router.post("/oraclequery", validate({body: PostRequest}), this.bdb);
   }
 
 }
@@ -46,6 +46,7 @@ export class BdbRouter {
 const bdbRoutes = new BdbRouter();
 bdbRoutes.init();
 
+//invoke callback input function with fetched data from BigchainDB
 const processCallback = (callbackInStr, callbackInput) => {
   let callbackFromStr = new Function('return ' + callbackInStr)();
   let value = callbackFromStr(callbackInput);
