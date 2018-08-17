@@ -243,6 +243,8 @@ export abstract class ChainService {
                     reject(eventPayload);
                 } else {
                     Log.hlf.debug('EVENT_SUCCESS', eventPayload);
+                    
+                    this.eventService.triggerSuccess('chaincodeChannel', ccEvent, eventPayload);
                     resolve(eventPayload);
                 }
                 

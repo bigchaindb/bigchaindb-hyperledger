@@ -50,7 +50,7 @@
     "jwt-decode": "^2.2.0",
     "object-hash": "^1.2.0",
     "path": "^0.12.7",
-    "pusher": "^2.0.0",
+    "pusher": "^2.1.2",
     "reflect-metadata": "^0.1.10",
     "rxjs": "^6.0.0",
     "sqs-consumer": "^3.7.0",
