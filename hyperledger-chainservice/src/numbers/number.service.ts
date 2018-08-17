@@ -48,8 +48,8 @@ export class NumberService {
      * @returns {Promise<CarDto>} 
      * @memberof CarService 
      */ 
-    getById(): Promise<any> { 
-        return this.requestHelper.queryRequest(ChainMethod.queryById, {key: 'PAYLOAD1'}).then( 
+    getById(id: string): Promise<any> { 
+        return this.requestHelper.queryRequest(ChainMethod.queryById, {key: id}).then( 
             (data) => { 
                 if (!data) { 
                     throw new NotFoundException('Data does not exist!'); 
