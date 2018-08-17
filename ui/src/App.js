@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {callChaincode, wsListen}  from './service.js';
+
 
 class App extends Component {
   constructor(props) {
@@ -10,6 +12,9 @@ class App extends Component {
       inputCallback: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    // Start WS listener
+    wsListen()
+
   }
   handleValueChange(event) {
     this.setState({inputValue: event.target.value})
@@ -20,6 +25,7 @@ class App extends Component {
   handleSubmit(event) {
     console.log('inputCallback: ' + this.state.inputCallback);
     console.log('inputValue: ' + this.state.inputValue);
+    callChaincode(this.state.inputValue,this.state.inputCallback)
     event.preventDefault();
   }
   render() {
