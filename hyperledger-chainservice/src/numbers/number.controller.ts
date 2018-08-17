@@ -17,29 +17,6 @@ export class NumberController {
     }
 
     /**
-     * Get number by id
-     *
-     * @returns {Promise<NumberDto[]>}
-     * @memberof CarController
-     * @param id
-     */
-    @Get(':id')
-    @ApiOperation({title: 'Get Value For Asset'})
-    @ApiResponse({
-        status: 200,
-        description: 'Returns a Number object',
-        type: NumberDto,
-    })
-    @ApiResponse({
-        status: 404,
-        description: 'Number does not exist!',
-        type: NotFoundException
-    })
-    getValueForAsset(@Param('id') id: string): Promise<NumberDto> {
-        return this.numberService.getValueForAsset(id);
-    }
-
-    /**
      * Create new number
      *
      * @param {NumberDto} numberDto
@@ -64,7 +41,7 @@ export class NumberController {
      * @memberof CarController 
      * @param id 
      */ 
-    @Get() 
+    @Get(':id') 
     @ApiOperation({title: 'Get a data by id'}) 
     @ApiResponse({ 
         status: 200, 
@@ -76,8 +53,8 @@ export class NumberController {
         description: 'Car does not exist!', 
         type: NotFoundException 
     }) 
-    getById(): Promise<any> { 
-        return this.numberService.getById(); 
+    getById(@Param('id') id: string): Promise<any> { 
+        return this.numberService.getById(id); 
     } 
 
 }

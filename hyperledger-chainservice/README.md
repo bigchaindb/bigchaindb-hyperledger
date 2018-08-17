@@ -25,7 +25,6 @@ e.g:
 “callback” : “function (data) {if (data.number > 0) {return \“Number is greater than 0. Number is \” + data.number;} else if (data.number== 0) {return \“Number is 0.\“;} else {return \“Number is less than 0. Number is \” + data.number;}}”
 }
 ```
-* GET /numbers to test if the POST succeeded
 
-* GET /numbers/:assetId this uses the default callback
+* GET /numbers/:assetId to test if the POST succeeded
 
