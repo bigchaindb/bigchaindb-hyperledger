@@ -2,14 +2,14 @@ import { EnvConfig } from './common/config/env';
 import { Log } from './common/utils/logging/log.service';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { PingModule } from './ping/ping.module';
-import { CarModule } from './cars/car.module';
+import { NumberModule } from './numbers/number.module';
 import { CoreModule } from './core/core.module';
 
 @Module({
     imports: [
         CoreModule,
         PingModule,
-        CarModule
+        NumberModule
     ]
 })
 export class ApplicationModule {

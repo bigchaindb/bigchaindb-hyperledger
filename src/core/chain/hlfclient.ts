@@ -77,7 +77,7 @@ export class HlfClient extends ChainService {
      * @returns
      * @memberof ChainService
      */
-    invoke(chainMethod: ChainMethod, params: string[], transientMap?: Object): Promise<any> {
+    invoke(chainMethod: ChainMethod, params: string[], transientMap?: Object, eventName?: string): Promise<any> {
         Log.hlf.info(chainMethod, params);
         return this.sendTransactionProposal(chainMethod, params, this.hlfConfig.options.chaincodeId, transientMap)
             .then((result: { txHash: string; buffer: ProposalResponseObject }) => {
@@ -94,8 +94,15 @@ export class HlfClient extends ChainService {
 
                     let sendPromise = this.hlfConfig.channel.sendTransaction(request);
                     let txPromise = this.registerTxEvent(result.txHash);
-
-                    return Promise.all([sendPromise, txPromise]);
+                    let ccPromise = new Promise(resolve => {
+                        resolve();
+                    });
+                    if (eventName !== '' ){
+                        ccPromise = this.registerCCEvent(eventName);
+                    }
+                    
+                    return Promise.all([sendPromise, txPromise, ccPromise]);
+                    // return Promise.all([sendPromise, txPromise]);
                 } else {
 
                     let message = result.buffer[0][0].response.message;
