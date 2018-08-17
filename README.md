@@ -1,16 +1,14 @@
-# bigchaindb-hyperledger
+# BigchainDB-Hyperledger Fabric Integration
 
-### Integration of BigchainDB and Hyperledger.
+This project is the outcome of a mini-hackathon in which the BigchainDB and TheLedger teams participated on the 16-17 of August 2018.
 
-*This project is the outcome of a remote Hackathon happening on the 16-17 of August 2018.*
-
-### Design 
+## Design
 
  [High Level Design specs](./specs/design.md)
 
-### Implementation
+## Directory Structure
 
-The directory structure of this project is as below : 
+The directory structure of this project is as below :
 
 ```
 .
@@ -27,19 +25,23 @@ The directory structure of this project is as below :
 └── ui/
         
 ```
-#### data_job/
 
-This is a node based cron job that posts transactions to BigchainDB network.
+### data_job/
 
-#### ui/
+This is a node based cron job that posts transactions to BigchainDB network. 
 
-This is a react based app that access REST API of Hyperledger Fabric Chaincode.
+### ui/
 
-#### hyperledger-chainservice
+This is a react based app to access REST API of Hyperledger Fabric chain-code service. This UI is for demo usage of the BigchainDB-HyperLedger Fabric oracle.
+The web form in the UI, takes two inputs - a BigchainDB asset ID and a JavaScript function. These inputs are passed to a HyperLedger chain-code which internally passes them to the oracle. The oracle then queries BigchainDB with the asset ID and executes the callback with asset.data of the queried asset.
+The oracle then sends back the results to this UI using a websocket.
 
-This is hyperledger chainservice that interacts with the fabric network and sends POST request to REST api exposed by `bdb-hyperledger-oracle/`
+### hyperledger-chainservice
 
-#### bdb-hyperledger-oracle/
+This is hyperledger chain-service that interacts with the fabric network and sends POST request to REST api exposed by `bdb-hyperledger-oracle/`
+
+### bdb-hyperledger-oracle/
 
 This project is an express-websocket API that functions as an oracle between Hyperledger Fabric (here in `hyperledger-chainservice/`) and BigchainDB.
 
+In a real scenario, the chain-code can do pre-processing and create a dynamic callback before sending the request to the oracle.
