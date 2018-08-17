@@ -1,5 +1,6 @@
-import { Injectable, Provider } from '@nestjs/common';
+import { Inject,Injectable, Provider } from '@nestjs/common';
 import { HlfErrors, HlfInfo } from './logging.enum';
+import { IEventService } from '../events/interfaces/event.interface';
 import { HlfConfig } from './hlfconfig';
 import {
     ChaincodeInvokeRequest,
@@ -17,7 +18,7 @@ export abstract class ChainService {
 
     // TODO: refactor
 
-    protected constructor(public hlfConfig: HlfConfig) {
+    protected constructor(public hlfConfig: HlfConfig, @Inject('IEventService') private eventService: IEventService) {
     }
 
     /**
@@ -239,11 +240,12 @@ export abstract class ChainService {
                 console.log(eventPayload);
 
                 if (eventPayload.status !== 'success') {
-                    console.log('hier');
                     Log.hlf.error('EVENT_ERROR', eventPayload.status);
                     reject(eventPayload);
                 } else {
                     Log.hlf.debug('EVENT_SUCCESS', eventPayload);
+                    
+                    // this.eventService.triggerSuccess('chaincodeChannel', ccEvent, eventPayload);
                     resolve(eventPayload);
                 }
                 
