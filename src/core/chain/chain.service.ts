@@ -10,7 +10,7 @@ import {
 } from 'fabric-client';
 import { Log } from '../../common/utils/logging/log.service';
 import Client = require('fabric-client');
-import { STS } from '../../../node_modules/aws-sdk';
+import { STS } from 'aws-sdk';
 
 @Injectable()
 export abstract class ChainService {
