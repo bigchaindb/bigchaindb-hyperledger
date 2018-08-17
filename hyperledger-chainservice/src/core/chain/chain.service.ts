@@ -239,7 +239,6 @@ export abstract class ChainService {
                 console.log(eventPayload);
 
                 if (eventPayload.status !== 'success') {
-                    console.log('hier');
                     Log.hlf.error('EVENT_ERROR', eventPayload.status);
                     reject(eventPayload);
                 } else {

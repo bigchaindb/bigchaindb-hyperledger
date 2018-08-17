@@ -19,7 +19,7 @@ awsConfig.update({
 
 async function bootstrap() {
 
-    const app = await NestFactory.create(ApplicationModule);
+    const app = await NestFactory.create(ApplicationModule, {cors: true});
 
     app.use(bodyParser.json());
 
