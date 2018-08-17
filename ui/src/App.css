@@ -5,6 +5,20 @@ body, html, #root {
 .jumbotron {
   background-color: #eee;
 }
-.lead-body {
+.explainer {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 3px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 10px;
+  color: #666;
+  text-align: left;
+  font-size: smaller;
+}
+.footer{
   padding-top: 50px;
+  padding-bottom: 20px;
+  color: #666;
+  font-size: smaller;
 }
