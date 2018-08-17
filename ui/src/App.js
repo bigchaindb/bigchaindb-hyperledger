@@ -31,8 +31,15 @@ class App extends Component {
     return(
       <section className="jumbotron text-center">
         <div className="container">
-          <h1 className="jumbotron-heading">BigchainDB - Hyperledger - Oracle</h1>
+          <h1 className="jumbotron-heading">BigchainDB - Hyperledger Fabric <br /> Oracle</h1>
           <div className="lead-body">
+            <div className="explainer">
+            This UI is for demo usage of the BigchainDB-Hyperledger Fabric oracle.
+            The following form, takes two inputs - a BigchainDB asset ID and a JavaScript function. These inputs are passed to a HyperLedger chain-code which internally passes them to the oracle. The oracle then queries BigchainDB with the asset ID and executes the callback with asset.data of the queried asset.<br />
+            The oracle then sends back the results to this UI using a websocket.
+            <br /><br />
+            In a real scenario, the chain-code can do pre-processing and create a dynamic callback before sending the request to the oracle.
+            </div>
             <form className="inputForm" onSubmit={this.handleSubmit}>
               <div>
                 <label htmlFor="inputValue" className="sr-only">Value:</label>
@@ -46,6 +53,9 @@ class App extends Component {
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
               </div>
             </form>
+            <div className="footer">
+              Developed By: <a href="https://www.bigchaindb.com">BigchainDB</a> and <a href="https://theledger.be">TheLedger</a>
+            </div>
           </div>
         </div>
       </section>
