@@ -2,23 +2,18 @@ import { createServer, Server } from "http";
 import * as debug from "debug";
 import express from "express";
 
-import * as bodyParser from "body-parser";
 import compression from "compression";
 import morgan from "morgan";
 import { handleErrors } from './middlewares/errorHandler';
 
 // config
 const config = require("./config/config");
-const socketio = require("socket.io");
 
 // rest api
 const app = express();
 
 //create server
 const server = createServer(app);
-
-//create socket server
-export const io = socketio(server);
 
 // import router (after socket server is exported)
 import BdbRouter from "./routes/BdbRouter";
@@ -33,8 +28,8 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(morgan("dev"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(compression());
 // routes
 app.use("/", BdbRouter);
