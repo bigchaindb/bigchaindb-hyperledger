@@ -26,7 +26,8 @@ import BdbRouter from "./routes/BdbRouter";
 // middleware
 app.use(function(req, res, next) {
   // headers?
-  res.header("Access-Control-Allow-Origin", "*");
+  // Either use this or allow origins http://localhost:*
+  //res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
   next();

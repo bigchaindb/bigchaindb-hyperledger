@@ -1,8 +1,9 @@
 import io from 'socket.io-client';
 
 export function wsListen(handleEvent) {
+    console.log('ws path', process.env.REACT_APP_CHAINCODE_URL)
     
-    let socket = io.connect('http://localhost:4000');
+    let socket = io.connect(process.env.REACT_APP_WS);
 
     socket.on('connect', function(data){
         console.log(`Server : Greetings from BDB-Hyperledger-Oracle...`)
@@ -10,7 +11,6 @@ export function wsListen(handleEvent) {
     
     socket.on('data', function (data) {
         console.log(`Server : ${data}`);
-
     });
     socket.on('disconnect', function () {
         console.log('disconnecting')
@@ -20,7 +20,7 @@ export function wsListen(handleEvent) {
 
 export async function callChaincode(assetId, callback) {
 
-    const rawResponse = await fetch('http://localhost:5000/numbers', {
+    const rawResponse = await fetch(process.env.REACT_APP_CHAINCODE_URL, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
