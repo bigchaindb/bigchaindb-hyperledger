@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "applicationinsights": "^1.0.3",
+    "applicationinsights-js": "^1.0.18",
     "bootstrap": "^4.1.3",
     "dotenv": "^6.0.0",
     "react": "^16.4.2",
