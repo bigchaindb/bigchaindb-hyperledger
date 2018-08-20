@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import {callChaincode, wsListen}  from './service.js';
+import {callChaincode}  from './service.js';
 
 
 class App extends Component {
@@ -11,8 +11,7 @@ class App extends Component {
       inputCallback: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    // Start WS listener
-    wsListen()
+  
 
   }
   handleValueChange(event) {
