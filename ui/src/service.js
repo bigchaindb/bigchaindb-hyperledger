@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import appInsights from 'applicationinsights';
 
 export function wsListen(handleEvent) {
     console.log('ws path', process.env.REACT_APP_CHAINCODE_URL)
@@ -19,6 +20,8 @@ export function wsListen(handleEvent) {
 }
 
 export async function callChaincode(assetId, callback) {
+    let client = appInsights.defaultClient;
+    client.trackEvent({name: "UISubmit", properties: { assetId: assetId, callback: callback }});
 
     const rawResponse = await fetch(process.env.REACT_APP_CHAINCODE_URL, {
         method: 'POST',
@@ -31,8 +34,10 @@ export async function callChaincode(assetId, callback) {
             callback
             })
     });
-    const content = await rawResponse.json();
 
+    const content = await rawResponse.json();
+    
+    client.trackEvent({name: "UIResponse", properties: { assetId: assetId, response: content }});
     console.log(content);
     return true
 }
