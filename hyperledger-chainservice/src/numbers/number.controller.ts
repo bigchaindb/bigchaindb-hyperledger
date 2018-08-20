@@ -55,6 +55,5 @@ export class NumberController {
     }) 
     getById(@Param('id') id: string): Promise<any> { 
         return this.numberService.getById(id); 
-    } 
-
+    }
 }
