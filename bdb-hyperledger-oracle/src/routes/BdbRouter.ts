@@ -2,7 +2,6 @@ import { Router, Request, Response, NextFunction } from "express";
 import BigchainDBModel from '../model/bigchaindbModel';
 import validate from '../middlewares/validator';
 import PostRequest from '../schema/PostRequest';
-import { io } from '../index';
 import  debug from 'debug';
 
 let connectedClients = [];
@@ -14,13 +13,12 @@ const bigchaindbModel = new BigchainDBModel(config.bdb.url, config.bdb.app_key, 
 export class BdbRouter {
 
   router: Router;
-  io
+
   /**
    * Initialize the MeRouter
    */
-  constructor(io) {
+  constructor() {
     this.router = Router();
-    this.io = io;
   }
 
   public async bdb(req: Request, res: Response, next: NextFunction) {
@@ -35,10 +33,6 @@ export class BdbRouter {
       let result = processCallback(req.body.callback, assetData);
       debug("Sending success " + req.body.query)
       res.status(202).send({status: "success", assetData, processedResult: result});
-      //send data to client over websockets
-      debug("Sending to websocket " + req.body.query)
-      sendDataOverWebSocket(connectedClients, result);
-
     }
     catch(error){
       next(new Error(error));
@@ -51,28 +45,11 @@ export class BdbRouter {
    */
   init() {
     this.router.post("/oraclequery", validate({body: PostRequest}), this.bdb);
-
-    //listen for the client socket connections
-    this.io.on('connection', (socket) => {
-      console.log("Client connected - " + socket.id);
-      connectedClients.push(socket);
-      console.log(`Client ${socket.id} added to the connected client list.`);
-
-      socket.on('disconnect', () => {
-        console.log("Client Disconnected - " + socket.id);
-        //remove client from the connected client list
-        var index = connectedClients.indexOf(socket);
-        if (index > -1) {
-          connectedClients.splice(index, 1);
-          console.log(`Client ${socket.id} removed from the connected client list.`);
-        }
-      });
-    });
   }
 }
 
 // Create the bdbRouter, and export its configured Express.Router
-const bdbRoutes = new BdbRouter(io);
+const bdbRoutes = new BdbRouter();
 bdbRoutes.init();
 
 //invoke callback input function with fetched data from BigchainDB
@@ -83,9 +60,5 @@ const processCallback = (callbackInStr, callbackInput) => {
   return value;
 }
 
-//send data to connected clients over web sockets
-const sendDataOverWebSocket = (listOfClients, dataToSend) => {
-  listOfClients.map(client => client.emit('data', dataToSend));
-}
 
 export default bdbRoutes.router;

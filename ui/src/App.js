@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { callChaincode, wsListen }  from './service.js';
+import {callChaincode}  from './service.js';
 import appInsights from 'applicationinsights';
 
 class App extends Component {
@@ -11,8 +11,6 @@ class App extends Component {
       inputCallback: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    // Start WS listener
-    wsListen();
     appInsights.setup(process.env.REACT_APP_APPLICATION_INSIGHTS_KEY).start(); // initialize application insights
   }
   handleValueChange(event) {
