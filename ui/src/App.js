@@ -13,7 +13,6 @@ class App extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
 
     // initialize application insights
-    console.log(String(process.env.REACT_APP_APPLICATION_INSIGHTS_KEY))
     AppInsights.downloadAndSetup({ instrumentationKey: String(process.env.REACT_APP_APPLICATION_INSIGHTS_KEY) });
   }
   handleValueChange(event) {
