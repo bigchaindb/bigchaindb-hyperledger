@@ -1,5 +1,4 @@
 export enum ChainMethod {
-    'queryNumber' = 'queryNumber',
+    'queryOracle' = 'queryOracle',
     'queryById' = 'queryById',
-
 }
