@@ -19,6 +19,7 @@ export class BdbRouter {
    */
   constructor() {
     this.router = Router();
+    appInsights.setup(config.appInsights.key).start();
     this.appInsightsClient = appInsights.defaultClient;
   }
 

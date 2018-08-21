@@ -1,7 +1,5 @@
-import { createServer, Server } from "http";
-import * as debug from "debug";
+import { createServer } from "http";
 import express from "express";
-import appInsights from "applicationinsights";
 import compression from "compression";
 import morgan from "morgan";
 import { handleErrors } from './middlewares/errorHandler';
@@ -31,7 +29,6 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(compression());
-appInsights.setup(config.appInsights.key).start();
 
 // routes
 app.use("/", BdbRouter);
