@@ -1,5 +1,4 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { AppInsights } from 'applicationinsights-js'
 import { OracleDto } from './oracle.model';
 import { RequestHelper } from '../core/chain/requesthelper';
 import { InvokeResult } from '../common/utils/invokeresult.model';
@@ -13,7 +12,6 @@ export class OracleService {
      * @memberof OracleService
      */
     constructor(private requestHelper: RequestHelper) {
-        AppInsights.downloadAndSetup({ instrumentationKey: String(process.env.APPLICATION_INSIGHTS_KEY) });
     }
 
     /**
@@ -37,7 +35,6 @@ export class OracleService {
      * @memberof OracleService
      */
     getValueForAssetWithCallback(oracleDto: OracleDto): Promise<InvokeResult> {
-        AppInsights.trackEvent("ChainServiceCallOracle", { assetId: oracleDto.assetId, callback: oracleDto.callback });
         return this.requestHelper.invokeRequest(ChainMethod.queryOracle, oracleDto, 'admin', 'Call_executed',false)
             .catch((error) => {
                 throw new InternalServerErrorException(error);
