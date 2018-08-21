@@ -66,6 +66,10 @@
     iterare "0.0.8"
     socket.io "^2.0.3"
 
+"@types/applicationinsights-js@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@types/applicationinsights-js/-/applicationinsights-js-1.0.5.tgz#b0bab755e67ed584ac3bf75869fc12589a338a2c"
+
 "@types/auth0-js@^8.11.2":
   version "8.11.2"
   resolved "https://registry.yarnpkg.com/@types/auth0-js/-/auth0-js-8.11.2.tgz#4890c662d40c41bea42d9e7b8490e9d88eac78c1"
