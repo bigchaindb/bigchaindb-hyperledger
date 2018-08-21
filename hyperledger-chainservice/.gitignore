@@ -54,9 +54,6 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
-
 # next.js build output
 .next
 
@@ -81,7 +78,6 @@ npm-debug.log
 
 test-reports/
 
-.env
 .DS_Store
 .idea
 

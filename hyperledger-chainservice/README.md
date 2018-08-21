@@ -1,17 +1,21 @@
 <center>
 
 ![](https://image.ibb.co/gePQce/black_1x.png)
+
 # Chainservice for interaction with the Fabric network
-[![Build Status](https://travis-ci.org/wearetheledger/hyperledger-typescript-boilerplate.svg?branch=master)](https://travis-ci.org/wearetheledger/hyperledger-typescript-boilerplate) 
+
+[![Build Status](https://travis-ci.org/wearetheledger/hyperledger-typescript-boilerplate.svg?branch=master)](https://travis-ci.org/wearetheledger/hyperledger-typescript-boilerplate)
+
 [![Greenkeeper badge](https://badges.greenkeeper.io/wearetheledger/hyperledger-typescript-boilerplate.svg)](https://greenkeeper.io/)
 
 </center>
 
-### This chainservice is based on the [Hyperledger Typescript Boilerplate ](https://medium.com/wearetheledger/hyperledger-fabric-typescript-boilerplate-455004d0c6c8)
+### This chainservice is based on the [ Hyperledger Typescript Boilerplate ](https://medium.com/wearetheledger/hyperledger-fabric-typescript-boilerplate-455004d0c6c8)
 
 
 ### Install dependencies
 `yarn`
+
 ### Starting the app
 `yarn run start:watch`
 
@@ -27,4 +31,3 @@ e.g:
 ```
 
 * GET /numbers/:assetId to test if the POST succeeded
-
