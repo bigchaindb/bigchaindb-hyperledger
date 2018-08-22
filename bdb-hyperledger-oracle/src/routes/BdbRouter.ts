@@ -2,10 +2,9 @@ import { Router, Request, Response, NextFunction } from "express";
 import BigchainDBModel from '../model/bigchaindbModel';
 import validate from '../middlewares/validator';
 import PostRequest from '../schema/PostRequest';
-import { io } from '../index';
 import  debug from 'debug';
 
-let connectedClients = [];
+let appInsights = require('applicationinsights');
 
 // config
 const config = require("../config/config");
@@ -14,31 +13,38 @@ const bigchaindbModel = new BigchainDBModel(config.bdb.url, config.bdb.app_key, 
 export class BdbRouter {
 
   router: Router;
-  io
+
   /**
    * Initialize the MeRouter
    */
-  constructor(io) {
+  constructor() {
     this.router = Router();
-    this.io = io;
+    appInsights.setup(config.appInsights.key).start();
   }
 
   public async bdb(req: Request, res: Response, next: NextFunction) {
     try{
       //find Asset from BigchainDB
       debug("Getting data for " + req.body.query)
+      appInsights.defaultClient.trackEvent({ name: "OracleBDBQuery", 
+        properties: { assetId: req.body.query }})
+      
       let assetData = await bigchaindbModel.getAssetData(req.body.query);
+      
       if(!assetData){
-        throw new Error(`No Data availble for query ${req.body.query}`);
+        throw new Error(`No Data available for query ${req.body.query}`);
       }
       debug("Processing callback for " + req.body.query)
-      let result = processCallback(req.body.callback, assetData);
+      
+      appInsights.defaultClient.trackEvent({ name: "OracleBDBData", 
+        properties: { assetId: req.body.query, data: assetData }})
+      
+        let result = processCallback(req.body.callback, assetData);
+      
+        appInsights.defaultClient.trackEvent({ name: "OracleProcessCallback", 
+        properties: { assetId: req.body.query, callback: req.body.callback, data: assetData, result: result }})
       debug("Sending success " + req.body.query)
       res.status(202).send({status: "success", assetData, processedResult: result});
-      //send data to client over websockets
-      debug("Sending to websocket " + req.body.query)
-      sendDataOverWebSocket(connectedClients, result);
-
     }
     catch(error){
       next(new Error(error));
@@ -51,28 +57,11 @@ export class BdbRouter {
    */
   init() {
     this.router.post("/oraclequery", validate({body: PostRequest}), this.bdb);
-
-    //listen for the client socket connections
-    this.io.on('connection', (socket) => {
-      console.log("Client connected - " + socket.id);
-      connectedClients.push(socket);
-      console.log(`Client ${socket.id} added to the connected client list.`);
-
-      socket.on('disconnect', () => {
-        console.log("Client Disconnected - " + socket.id);
-        //remove client from the connected client list
-        var index = connectedClients.indexOf(socket);
-        if (index > -1) {
-          connectedClients.splice(index, 1);
-          console.log(`Client ${socket.id} removed from the connected client list.`);
-        }
-      });
-    });
   }
 }
 
 // Create the bdbRouter, and export its configured Express.Router
-const bdbRoutes = new BdbRouter(io);
+const bdbRoutes = new BdbRouter();
 bdbRoutes.init();
 
 //invoke callback input function with fetched data from BigchainDB
@@ -81,11 +70,6 @@ const processCallback = (callbackInStr, callbackInput) => {
   let value = callbackFromStr(callbackInput);
   console.log(value);
   return value;
-}
-
-//send data to connected clients over web sockets
-const sendDataOverWebSocket = (listOfClients, dataToSend) => {
-  listOfClients.map(client => client.emit('data', dataToSend));
 }
 
 export default bdbRoutes.router;

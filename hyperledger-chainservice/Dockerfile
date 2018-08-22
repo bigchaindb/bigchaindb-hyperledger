@@ -31,8 +31,3 @@ COPY --from=build /tmp/dist ./dist
 VOLUME /var/log/portal-service
 EXPOSE 3000
 CMD [ "npm", "run", "start:prod" ]
-
-
-
-
-

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import {callChaincode, wsListen}  from './service.js';
-
+import { callChaincode }  from './service.js';
+import { AppInsights } from 'applicationinsights-js';
 
 class App extends Component {
   constructor(props) {
@@ -11,9 +11,9 @@ class App extends Component {
       inputCallback: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    // Start WS listener
-    wsListen()
 
+    // initialize application insights
+    AppInsights.downloadAndSetup({ instrumentationKey: String(process.env.REACT_APP_APPLICATION_INSIGHTS_KEY) });
   }
   handleValueChange(event) {
     this.setState({inputValue: event.target.value})
@@ -24,7 +24,8 @@ class App extends Component {
   handleSubmit(event) {
     console.log('inputCallback: ' + this.state.inputCallback);
     console.log('inputValue: ' + this.state.inputValue);
-    callChaincode(this.state.inputValue,this.state.inputCallback)
+    AppInsights.trackEvent("UISubmit", { assetId: this.state.inputValue, callback: this.state.inputCallback });
+    callChaincode(this.state.inputValue, this.state.inputCallback);
     event.preventDefault();
   }
   render() {
@@ -45,10 +46,12 @@ class App extends Component {
                 <label htmlFor="inputValue" className="sr-only">Value:</label>
                 <input type="text" name="inputValue" id="inputValue" className="form-control" placeholder="Value" value={this.state.inputValue} onChange={this.handleValueChange.bind(this)}/>
               </div>
+              <br/>
               <div>
                 <label htmlFor="inputCallback" className="sr-only">Callback:</label>
                 <textarea type="text" name="inputCallback" id="inputCallback" className="form-control" placeholder="Code callback" value={this.state.inputCallback} onChange={this.handleCallbackChange.bind(this)}></textarea>
               </div>
+              <br/><br/>
               <div>
                 <button className="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
               </div>

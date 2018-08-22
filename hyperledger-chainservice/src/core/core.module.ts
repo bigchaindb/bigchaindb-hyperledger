@@ -52,12 +52,14 @@ export class CoreModule {
                         this.hlfClient.invoke(chainMethod, payload)
                             .then(() => {
                                 Log.awssqs.info('HLF Transaction successful, pushing result to frontend...');
-                                // notify frontend of succesful transaction
+                                
+                                // notify frontend of successful transaction
                                 this.webSocketService.triggerSuccess(pusherChannel, chainMethod, payload);
                                 done();
                             })
                             .catch(error => {
                                 Log.awssqs.error('HLF Transaction failed:', error);
+                                
                                 // notify frontend of failed transaction
                                 this.webSocketService.triggerError(pusherChannel, chainMethod, {success: false});
                                 done(error);

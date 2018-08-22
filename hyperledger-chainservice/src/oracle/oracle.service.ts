@@ -1,52 +1,51 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
-import { NumberDto } from './number.model';
+import { OracleDto } from './oracle.model';
 import { RequestHelper } from '../core/chain/requesthelper';
-import { IAuthUser } from '../core/authentication/interfaces/authenticateduser';
 import { InvokeResult } from '../common/utils/invokeresult.model';
 import { ChainMethod } from '../chainmethods.enum';
 
 @Injectable()
-export class NumberService {
+export class OracleService {
     /**
-     * Creates an instance of NumberService.
+     * Creates an instance of OracleService.
      * @param {RequestHelper} requestHelper
-     * @memberof NumberService
+     * @memberof OracleService
      */
     constructor(private requestHelper: RequestHelper) {
     }
 
     /**
-     * Get number by id
+     * Get oracle result by id
      * 
-     * @returns {Promise<NumberDto>}
-     * @memberof NumberService
+     * @returns {Promise<OracleDto>}
+     * @memberof OracleService
      */
-    getValueForAsset(id: string): Promise<NumberDto> {
-        return this.requestHelper.invokeRequest(ChainMethod.queryNumber, {query:id}, 'admin', 'Call_executed',false)
+    getValueForAsset(id: string): Promise<OracleDto> {
+        return this.requestHelper.invokeRequest(ChainMethod.queryOracle, {query:id}, 'admin', 'Call_executed',false)
             .catch((error) => {
                 throw new InternalServerErrorException(error);
             });
     }
 
     /**
-     * Create new number
+     * Get value for asset with callback from oracle
      *
-     * @param {NumberDto} numberDto
+     * @param {OracleDto} oracleDto
      * @returns {Promise<InvokeResult>}
-     * @memberof NumberService
+     * @memberof OracleService
      */
-    getValueForAssetWithCallback(numberDto: NumberDto): Promise<InvokeResult> {
-        return this.requestHelper.invokeRequest(ChainMethod.queryNumber, numberDto, 'admin', 'Call_executed',false)
+    getValueForAssetWithCallback(oracleDto: OracleDto): Promise<InvokeResult> {
+        return this.requestHelper.invokeRequest(ChainMethod.queryOracle, oracleDto, 'admin', 'Call_executed',false)
             .catch((error) => {
                 throw new InternalServerErrorException(error);
             });
     }
 
     /** 
-     * Get data by id 
+     * Get stored oracle data object by id 
      * 
-     * @returns {Promise<CarDto>} 
-     * @memberof CarService 
+     * @returns {Promise<OracleDto>} 
+     * @memberof OracleService 
      */ 
     getById(id: string): Promise<any> { 
         return this.requestHelper.queryRequest(ChainMethod.queryById, {key: id}).then( 

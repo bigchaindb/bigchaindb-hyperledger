@@ -78,6 +78,9 @@ npm-debug.log
 
 test-reports/
 
+.DS_Store
+.idea
+
 vendor
 .idea
 
@@ -85,4 +88,3 @@ src/common/config/creds/*
 coverage
 yarn-error.log
 package-lock.json
-

@@ -30,7 +30,7 @@ export class RequestHelper {
      * @param {ChainMethod} chainMethod
      * @param {Object} params
      * @param {string} userId
-     * @param invokeAlways - Workaround for message deduplication SQS
+     * @param invokeAlways - Workaround for message de duplication SQS
      * @param transientMap
      * @returns {Promise<InvokeResult>}
      * @memberof RequestHelper
