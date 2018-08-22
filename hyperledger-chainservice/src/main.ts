@@ -7,15 +7,15 @@ import * as bodyParser from 'body-parser';
 import { Log } from './common/utils/logging/log.service';
 import { ValidationPipe } from '@nestjs/common';
 
-/**
- * Set AWS Credentials
- */
+// /**
+//  * Set AWS Credentials
+//  */
 
-awsConfig.update({
-    accessKeyId: EnvConfig.AWS_ACCESS_KEY,
-    secretAccessKey: EnvConfig.AWS_SECRET_ACCESS_KEY,
-    region: EnvConfig.AWS_REGION
-});
+// awsConfig.update({
+//     accessKeyId: EnvConfig.AWS_ACCESS_KEY,
+//     secretAccessKey: EnvConfig.AWS_SECRET_ACCESS_KEY,
+//     region: EnvConfig.AWS_REGION
+// });
 
 async function bootstrap() {
 
