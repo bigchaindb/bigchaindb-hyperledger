@@ -61,7 +61,7 @@ In a real scenario, the chain-code can do pre-processing and create a dynamic ca
 > **Note** - save transaction id of one of this transaction, so that we can use it later to perform conditional operations from UI.
 
 * From new terminal, in `bdb-hyperledger-oracle/`, execute `npm install` and then `npm start`. This will start BigchainDB-Hyperledger Oracle Server and expose REST API.
-* In `hyperledger-chainservice/` folder, create an `.env` file with following keys. The sample `.env` file can be found [here](/hyperledger-chainservice/.env.example) - 
+* In `hyperledger-chainservice/` folder, create an `.env` file with following keys. The sample `.env` file can be found [here](/hyperledger-chainservice/.env.example).
 
 * From new terminal, in `hyperledger-chainservice/` execute `yarn` and `yarn run start:watch`. This will start Hyperledger-chaincode REST server to be consumed by UI.
 * In `ui/` folder, create an `.env` file with following keys - 
