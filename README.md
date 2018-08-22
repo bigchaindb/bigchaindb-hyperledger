@@ -61,8 +61,41 @@ In a real scenario, the chain-code can do pre-processing and create a dynamic ca
 > **Note** - save transaction id of one of this transaction, so that we can use it later to perform conditional operations from UI.
 
 * From new terminal, in `bdb-hyperledger-oracle/`, execute `npm install` and then `npm start`. This will start BigchainDB-Hyperledger Oracle Server and expose REST API.
-* From new terminal, in `hyperledger-chainservice/`, execute `yarn` and `yarn run start:watch`. This will start Hyperledger-chaincode REST server to be consumed by UI.
+* In `hyperledger-chainservice/` folder, create an `.env` file with following keys - 
+
+```
+PORT=5000
+NODE_ENV=LOCAL
+DOMAIN_URL=http://localhost:5000
+AWS_ACCESS_KEY=<your-aws-access-keys>
+AWS_SECRET_ACCESS_KEY=<your-aws-secret-access>
+BYPASS_QUEUE=1
+SKIP_MIDDLEWARE=1
+PEER_HOST=<peer-host-instance>
+ORDERER_HOST=<orderer-host-instance>
+CA_HOST=<ca-host-instance>
+PUSHER_KEY=
+PUSHER_APP_ID=
+PUSHER_SECRET=
+PUSHER_CLUSTER=
+AUTH0_CLIENT_ID=<auth0-client-id>
+AUTH0_DOMAIN=<auth0-domain>
+AUTH0_CLIENT_SECRET=<auth0-client-secret>
+AUTH0_AUDIENCE=<auth0-audience-api-url>
+OPEN_CORS=1
+
+```
+* From new terminal, in `hyperledger-chainservice/` execute `yarn` and `yarn run start:watch`. This will start Hyperledger-chaincode REST server to be consumed by UI.
+* In `ui/` folder, create an `.env` file with following keys - 
+
+```
+REACT_APP_PORT=5000
+REACT_APP_CHAINCODE_URL=http://localhost:5000/oracle
+REACT_APP_APPLICATION_INSIGHTS_KEY=<your-app-insights-key>
+
+```
 * From new terminal, in `ui/`, execute `npm install` and then `npm start`. This will start react application on port 3000. 
+
 
 ### Usage
 
