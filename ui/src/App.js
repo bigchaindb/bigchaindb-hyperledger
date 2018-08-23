@@ -48,8 +48,8 @@ class App extends Component {
         <h1>BigchainDB - Hyperledger Fabric Oracle</h1>
         <br/><br/>
         <div className="alert alert-warning">
-          This UI is for demo usage of the BigchainDB-Hyperledger Fabric oracle. The following form, takes two inputs - a BigchainDB asset ID and a JavaScript function. These inputs are passed to a HyperLedger chain-code which internally passes them to the oracle. The oracle then queries BigchainDB with the asset ID and executes the callback with asset.data of the queried asset.<br/>
-          The oracle then sends back the results to this UI using a websocket.
+          This UI is for demo usage of the BigchainDB-Hyperledger Fabric oracle. The following form first we create a BigchainDB asset by proiding passphrase and asset data. Once the asset is created, the asset id is passed to a Hyperledger Chaincode which internally passes it to the oracle. The oracle then queries BigchainDB with the asset id and executes a callback passed by the Hyperledger Chaincode.<br/>
+          The oracle then sends back the results to Hyperledger Chaincode.
           <br/><br/>
           In a real scenario, the chain-code can do pre-processing and create a dynamic callback before sending the request to the oracle.
         </div>
