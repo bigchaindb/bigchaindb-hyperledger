@@ -5,16 +5,9 @@ body, html, #root {
 .jumbotron {
   background-color: #eee;
 }
-.explainer {
-  border: 1px solid #ccc;
-  background-color: #fff;
-  border-radius: 3px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  padding: 10px;
-  color: #666;
+.alert-warning {
+  border: 1px solid #ddd;
   text-align: left;
-  font-size: smaller;
 }
 .footer{
   padding-top: 50px;

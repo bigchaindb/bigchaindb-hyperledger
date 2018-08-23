@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "applicationinsights-js": "^1.0.18",
+    "bigchaindb-driver": "^4.1.0",
+    "bip39": "^2.5.0",
     "bootstrap": "^4.1.3",
     "dotenv": "^6.0.0",
     "react": "^16.4.2",
