@@ -2,9 +2,10 @@ import { Router, Request, Response, NextFunction } from "express";
 import BigchainDBModel from '../model/bigchaindbModel';
 import validate from '../middlewares/validator';
 import PostRequest from '../schema/PostRequest';
-import  debug from 'debug';
+import debug from 'debug';
+import request from 'request';
 
-let appInsights = require('applicationinsights');
+const appInsights = require('applicationinsights');
 
 // config
 const config = require("../config/config");
@@ -23,30 +24,43 @@ export class BdbRouter {
   }
 
   public async bdb(req: Request, res: Response, next: NextFunction) {
-    try{
+    try {
       //find Asset from BigchainDB
       debug("Getting data for " + req.body.query)
-      appInsights.defaultClient.trackEvent({ name: "OracleBDBQuery", 
-        properties: { assetId: req.body.query }})
-      
-      let assetData = await bigchaindbModel.getAssetData(req.body.query);
-      
-      if(!assetData){
+      appInsights.defaultClient.trackEvent({
+        name: "OracleBDBQuery",
+        properties: { assetId: req.body.query }
+      })
+
+      const assetData = await bigchaindbModel.getAssetData(req.body.query);
+
+      if (!assetData) {
         throw new Error(`No Data available for query ${req.body.query}`);
       }
       debug("Processing callback for " + req.body.query)
-      
-      appInsights.defaultClient.trackEvent({ name: "OracleBDBData", 
-        properties: { assetId: req.body.query, data: assetData }})
-      
-        let result = processCallback(req.body.callback, assetData);
-      
-        appInsights.defaultClient.trackEvent({ name: "OracleProcessCallback", 
-        properties: { assetId: req.body.query, callback: req.body.callback, data: assetData, result: result }})
+
+      appInsights.defaultClient.trackEvent({
+        name: "OracleBDBData",
+        properties: { assetId: req.body.query, data: assetData }
+      })
+
+      const result = processCallback(req.body.callback, assetData);
+
+      appInsights.defaultClient.trackEvent({
+        name: "OracleProcessCallback",
+        properties: { assetId: req.body.query, callback: req.body.callback, data: assetData, result: result }
+      })
       debug("Sending success " + req.body.query)
-      res.status(202).send({status: "success", assetData, processedResult: result});
+
+      request.post({ url: config.chaincode.url + '/oracle/result', json: { result: result } }, function(reqError, reqEesponse, reqBody) {
+        if (!reqError) {
+          res.status(202).send();
+        } else {
+          res.status(500).send();
+        }
+      })
     }
-    catch(error){
+    catch (error) {
       next(new Error(error));
     }
   }
@@ -56,7 +70,7 @@ export class BdbRouter {
    * endpoints.
    */
   init() {
-    this.router.post("/oraclequery", validate({body: PostRequest}), this.bdb);
+    this.router.post("/oraclequery", validate({ body: PostRequest }), this.bdb);
   }
 }
 
@@ -66,8 +80,8 @@ bdbRoutes.init();
 
 //invoke callback input function with fetched data from BigchainDB
 const processCallback = (callbackInStr, callbackInput) => {
-  let callbackFromStr = new Function('return ' + callbackInStr)();
-  let value = callbackFromStr(callbackInput);
+  const callbackFromStr = new Function('return ' + callbackInStr)();
+  const value = callbackFromStr(callbackInput);
   console.log(value);
   return value;
 }

@@ -45,7 +45,7 @@ class App extends Component {
   render() {
     return (<section className="jumbotron text-center">
       <div className="container">
-        <h1>BigchainDB <> Hyperledger Fabric - Integration</h1>
+        <h1>BigchainDB &lt;&gt; Hyperledger Fabric - Integration</h1>
         <br/><br/>
         <div className="alert alert-warning">
           This UI is for demo usage of the BigchainDB-Hyperledger Fabric oracle. The following form first we create a BigchainDB asset by providing passphrase and asset data. Once the asset is created, the asset id is passed to a Hyperledger chain-code which internally passes it to the oracle. The oracle then queries BigchainDB with the asset id and executes a callback passed by the Hyperledger chain-code.<br/>
