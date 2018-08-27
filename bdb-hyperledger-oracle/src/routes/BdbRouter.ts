@@ -8,8 +8,7 @@ import request from 'request';
 const appInsights = require('applicationinsights');
 
 // config
-const config = require("../config/config");
-const bigchaindbModel = new BigchainDBModel(config.bdb.url, config.bdb.app_key, config.bdb.app_id);
+const bigchaindbModel = new BigchainDBModel(process.env.BDB_URL, process.env.BDB_APP_KEY, process.env.BDB_APP_ID);
 
 export class BdbRouter {
 
@@ -20,7 +19,7 @@ export class BdbRouter {
    */
   constructor() {
     this.router = Router();
-    appInsights.setup(config.appInsights.key).start();
+    appInsights.setup(process.env.APPINSIGHTS_KEY).start();
   }
 
   public async bdb(req: Request, res: Response, next: NextFunction) {
@@ -52,7 +51,7 @@ export class BdbRouter {
       })
       debug("Sending success " + req.body.query)
 
-      request.post({ url: config.chaincode.url + '/oracle/result', json: { result: result } }, function(reqError, reqEesponse, reqBody) {
+      request.post({ url: process.env.CHAINCODE_URL + '/oracle/result', json: { result: result } }, function(reqError, reqEesponse, reqBody) {
         if (!reqError) {
           res.status(202).send();
         } else {

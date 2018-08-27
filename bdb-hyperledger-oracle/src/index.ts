@@ -5,7 +5,7 @@ import morgan from "morgan";
 import { handleErrors } from './middlewares/errorHandler';
 
 // config
-const config = require("./config/config");
+require("dotenv").config();
 
 // rest api
 const app = express();
@@ -35,7 +35,7 @@ app.use("/", BdbRouter);
 //handle thrown errors
 app.use(handleErrors);
 // listen
-const _server = server.listen(config.app.port);
+const _server = server.listen(process.env.APP_PORT);
 _server.on("listening", onListening);
 _server.on("error", onError);
 
