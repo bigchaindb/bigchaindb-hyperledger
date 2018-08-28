@@ -18,6 +18,6 @@ ADD ./nginx.conf /etc/nginx/nginx.conf
 
 COPY . .
 
-RUN yarn build
+RUN yarn build:nonproduction
 
 CMD ["nginx", "-g", "daemon off;"]

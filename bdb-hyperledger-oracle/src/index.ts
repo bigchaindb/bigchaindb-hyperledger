@@ -2,42 +2,55 @@ import { createServer } from "http";
 import express from "express";
 import compression from "compression";
 import morgan from "morgan";
-import { handleErrors } from './middlewares/errorHandler';
+import * as cluster from "cluster";
+import Queue from "./queue";
+import { handleErrors } from "./middlewares/errorHandler";
 
 // config
 require("dotenv").config();
 
-// rest api
-const app = express();
-
-//create server
-const server = createServer(app);
-
-// import router (after socket server is exported)
+// routes
 import BdbRouter from "./routes/BdbRouter";
 
-// middleware
-app.use(function(req, res, next) {
-  // headers?
-  // Either use this or allow origins http://localhost:*
-  //res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-  next();
-});
-app.use(morgan("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(compression());
+// start master and processor
+if (cluster.isMaster) {
 
-// routes
-app.use("/", BdbRouter);
-//handle thrown errors
-app.use(handleErrors);
-// listen
-const _server = server.listen(process.env.APP_PORT);
-_server.on("listening", onListening);
-_server.on("error", onError);
+  // rest api
+  const app = express();
+
+  // create server
+  const server = createServer(app);
+
+  // middleware
+  app.use(function(req, res, next) {
+    // headers?
+    // Either use this or allow origins http://localhost:*
+    // res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
+    next();
+  });
+  app.use(morgan("dev"));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(compression());
+
+  // routes
+  app.use("/", BdbRouter);
+  // handle thrown errors
+  app.use(handleErrors);
+  // listen
+  const _server = server.listen(process.env.APP_PORT);
+  _server.on("listening", onListening);
+  _server.on("error", onError);
+
+  // spawn queue processor
+  cluster.fork();
+} else {
+  // processor
+  const queue = new Queue();
+  queue.process();
+}
 
 function onListening(): void {
   console.debug("Server thread started");

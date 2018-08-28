@@ -17,6 +17,7 @@
   "dependencies": {
     "applicationinsights": "^1.0.3",
     "bigchaindb-driver": "^4.1.0",
+    "bull": "^3.4.7",
     "compression": "^1.7.3",
     "debug": "^3.1.0",
     "dotenv": "^6.0.0",
@@ -26,6 +27,7 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
+    "@types/bull": "^3.3.20",
     "@types/compression": "^0.0.35",
     "@types/debug": "0.0.29",
     "@types/express": "^4.11.1",

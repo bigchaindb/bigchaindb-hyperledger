@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+
+  frontend:
+    build:
+      context: ./ui
+      dockerfile: ./Dockerfile
+    ports:
+      - 80:80
+
+  oracle:
+    build:
+      context: ./bdb-hyperledger-oracle
+      dockerfile: ./Dockerfile
+    ports:
+      - 4000:4000
+    environment:
+      - HOST_REDIS=redis
+    depends_on:
+      - redis
+    command: npm run start
+
+  chainservice:
+    build:
+      context: ./hyperledger-chainservice
+      dockerfile: ./Dockerfile
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379"
+    command: redis-server --save "" --appendonly no
