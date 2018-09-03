@@ -25,7 +25,7 @@ export class OracleController {
      * @memberof OracleController
      */
     @Post()
-    @ApiOperation({title: 'Get Value For Asset With CallbackGet value for asset with callback from oracle'})
+    @ApiOperation({title: 'Get value for asset with callback from oracle'})
     @ApiResponse({
         status: 201,
         description: 'The oracle response has been successfully retrieved and stored.',
@@ -42,7 +42,7 @@ export class OracleController {
      * @param id 
      */ 
     @Get(':id') 
-    @ApiOperation({title: 'Get a oracle object by id'}) 
+    @ApiOperation({title: 'Get an oracle object by id'}) 
     @ApiResponse({ 
         status: 200, 
         description: 'Returns an oracle data object', 

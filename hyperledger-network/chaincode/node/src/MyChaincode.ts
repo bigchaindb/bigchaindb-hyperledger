@@ -82,6 +82,14 @@ export class MyChaincode extends Chaincode {
             this.logger.info('Added <--> ', car);
         }
 
+        const callback = {
+            callback: 'function (data) {if (data.number > 0) {return \"Number is greater than 0. Number is \" + data.number;} else if (data.number== 0) {return \"Number is 0.\";} else {return \"Number is less than 0. Number is \" + data.number;}}',
+            doctype: 'callback'
+        };
+
+        await stubHelper.putState('CALLBACK1', callback);
+        this.logger.info('Added callback <--> ', callback);
+
     }
 
     async queryNumber(stubHelper: StubHelper, args: string[]) {
@@ -89,17 +97,15 @@ export class MyChaincode extends Chaincode {
 
         const verifiedArgs = await Helpers.checkArgs<any>(args[0], Yup.object()
             .shape({
-                assetId: Yup.string().required(),
-                callback: Yup.string().default('')
+                assetId: Yup.string().required()
             }));
 
-            let body = {};
-            console.log(verifiedArgs);
-            if ( verifiedArgs.callback !== ''){
-                body = {query: verifiedArgs.assetId, callback: verifiedArgs.callback};
-            }else{
-                body = {query: verifiedArgs.assetId, callback: 'function (data) {if (data.number > 0) {return \"Number is greater than 0. Number is \" + data.number;} else if (data.number== 0) {return \"Number is 0.\";} else {return \"Number is less than 0. Number is \" + data.number;}}'};
-            }
+        let retrievedCallback = await stubHelper.getStateAsObject('CALLBACK1');
+        console.log('CALLBACK');
+        console.log(retrievedCallback);
+
+        let body = {query: verifiedArgs.assetId, callback: retrievedCallback};
+        console.log(verifiedArgs);    
             
         const response = await axios.post('http://13.81.13.189:4000/oraclequery', body);
             
