@@ -1,5 +1,6 @@
 import { Body, Controller, Get, NotFoundException, Param, Post, Req } from '@nestjs/common';
 import { OracleService } from './oracle.service';
+import { OracleResponseDto } from './oracleResponse.model';
 import { OracleDto } from './oracle.model';
 import { ApiOAuth2Auth, ApiOperation, ApiResponse, ApiUseTags, ApiImplicitHeader } from '@nestjs/swagger';
 import { InvokeResult } from '../common/utils/invokeresult.model';
@@ -32,6 +33,24 @@ export class OracleController {
     })
     getValueForAssetWithCallback(@Body() oracleDto: OracleDto): Promise<InvokeResult> {
         return this.oracleService.getValueForAssetWithCallback(oracleDto);
+    }
+
+    /**
+     * Post response from oracle in blockchain
+     *
+     * @param {OracleResponseDto} oracleResponseDto
+     * @param req
+     * @returns {*}
+     * @memberof OracleController
+     */
+    @Post('response')
+    @ApiOperation({title: 'Post response from oracle in blockchain'})
+    @ApiResponse({
+        status: 201,
+        description: 'The oracle response has been successfully stored.',
+    })
+    saveOracleResponse(@Body() oracleResponseDto: OracleResponseDto): Promise<InvokeResult> {
+        return this.oracleService.saveOracleResponse(oracleResponseDto);
     }
 
     /** 

@@ -92,7 +92,7 @@ export class MyChaincode extends Chaincode {
 
     }
 
-    async queryNumber(stubHelper: StubHelper, args: string[]) {
+    async queryOracle(stubHelper: StubHelper, args: string[]) {
         console.log(args);
 
         const verifiedArgs = await Helpers.checkArgs<any>(args[0], Yup.object()
@@ -107,16 +107,19 @@ export class MyChaincode extends Chaincode {
         let body = {query: verifiedArgs.assetId, callback: retrievedCallback};
         console.log(verifiedArgs);    
             
-        const response = await axios.post('http://13.81.13.189:4000/oraclequery', body);
-            
-                // console.log(response.status);
-                console.log(response.data.assetData);
-                console.log(response.data.status);
-                // const payload = {response_data:response.data, status: response.status};
-                stubHelper.setEvent('Call_executed',response.data);
-           
-        await stubHelper.putState(verifiedArgs.assetId, response.data);
+        axios.post('http://13.81.13.189:4000/oraclequery', body);
 
+    }
+
+    async saveResult(stubHelper: StubHelper, args: string[]) {
+        console.log(args);
+        let response = JSON.parse(args[0]);
+        
+            console.log(response.data.assetData);
+            console.log(response.data.status);
+            stubHelper.setEvent('Call_executed', response.data);
+       
+        await stubHelper.putState(response.data.id, response.data);
     }
 
 }

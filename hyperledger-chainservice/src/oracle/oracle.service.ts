@@ -1,5 +1,6 @@
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { OracleDto } from './oracle.model';
+import { OracleResponseDto } from './oracleResponse.model';
 import { RequestHelper } from '../core/chain/requesthelper';
 import { InvokeResult } from '../common/utils/invokeresult.model';
 import { ChainMethod } from '../chainmethods.enum';
@@ -36,6 +37,20 @@ export class OracleService {
      */
     getValueForAssetWithCallback(oracleDto: OracleDto): Promise<InvokeResult> {
         return this.requestHelper.invokeRequest(ChainMethod.queryOracle, oracleDto, 'admin', 'Call_executed',false)
+            .catch((error) => {
+                throw new InternalServerErrorException(error);
+            });
+    }
+
+    /**
+     * Post response from oracle in blockchain
+     *
+     * @param {OracleResponseDto} oracleResponseDto
+     * @returns {Promise<InvokeResult>}
+     * @memberof OracleService
+     */
+    saveOracleResponse(oracleResponseDto: OracleResponseDto): Promise<InvokeResult> {
+        return this.requestHelper.invokeRequest(ChainMethod.saveResult, oracleResponseDto.data, 'admin', 'Call_executed',false)
             .catch((error) => {
                 throw new InternalServerErrorException(error);
             });
