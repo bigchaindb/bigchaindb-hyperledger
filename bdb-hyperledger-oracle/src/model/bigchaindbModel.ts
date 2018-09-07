@@ -38,7 +38,7 @@ export default class BigchainDBModel {
            throw new Error(`No Assets found with id ${assetId}`);
        }
 
-       //combine assset data and metadata into one data object
+       //combine asset data and metadata into one data object
        let data = Object.assign(tx.asset.data, tx.metadata);
 
        return data;  

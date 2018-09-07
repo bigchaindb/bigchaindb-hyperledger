@@ -63,7 +63,7 @@ export default class Queue {
         });
         logger("Processed callback for " + job.data.query);
 
-        request.post({ url: process.env.CHAINCODE_URL + "/oracle/result", json: { result: result } }, function(reqError, reqEesponse, reqBody) {
+        request.post({ url: process.env.CHAINCODE_URL + "/oracle/response", json: { result: result } }, function(reqError, reqEesponse, reqBody) {
           if (!reqError) {
             logger("Result sent for " + job.data.query);
             done({ status: "success" });

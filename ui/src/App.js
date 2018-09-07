@@ -28,24 +28,31 @@ class App extends Component {
     this.setState({inputAsset: event.target.value})
   }
   handleSubmit(event) {
-    event.preventDefault();
-    console.log('inputValue: ' + this.state.inputValue);
-    AppInsights.trackEvent("UISubmit", {
-      assetId: this.state.inputValue
-    });
-    callChaincode(this.state.inputValue);
+    if(this.state.inputValue) {
+      event.preventDefault();
+      console.log('inputValue: ' + this.state.inputValue);
+      AppInsights.trackEvent("UISubmit", {
+        assetId: this.state.inputValue
+      });
+      callChaincode(this.state.inputValue);
+    }
   }
   async handleCreate(event) {
-    event.preventDefault();
-    const keyPair = getKeypairFromSeed(this.state.inputPassphrase);
-    const asset = JSON.parse(this.state.inputAsset);
-    const tx = await createNewAsset(keyPair, asset, null);
-    this.setState({inputValue: tx.id});
+    if(this.state.inputAsset && this.state.inputPassphrase) {
+      event.preventDefault();
+      const keyPair = getKeypairFromSeed(this.state.inputPassphrase);
+      const asset = {
+        number: parseInt(this.state.inputAsset.toString())
+      }
+      const tx = await createNewAsset(keyPair, asset, null);
+      console.log(tx);
+      this.setState({inputValue: tx.id});
+    }
   }
   render() {
     return (<section className="jumbotron text-center">
       <div className="container">
-        <h1>BigchainDB &lt;&gt; Hyperledger Fabric - Integration</h1>
+        <h1><strong>BigchainDB</strong> integration with <strong>Hyperledger Fabric</strong></h1>
         <br/><br/>
         <div className="alert alert-warning">
           This UI is for demo usage of the BigchainDB-Hyperledger Fabric oracle. The following form first we create a BigchainDB asset by providing passphrase and asset data. Once the asset is created, the asset id is passed to a Hyperledger chain-code which internally passes it to the oracle. The oracle then queries BigchainDB with the asset id and executes a callback passed by the Hyperledger chain-code.<br/>
@@ -67,7 +74,7 @@ class App extends Component {
                 <br/>
                 <div>
                   <label htmlFor="inputAsset" className="sr-only">Asset:</label>
-                  <textarea type="text" name="inputAsset" id="inputAsset" className="form-control" placeholder="JSON Asset data" value={this.state.inputAsset} onChange={this.handleAssetChange.bind(this)}></textarea>
+                  <textarea type="text" name="inputAsset" id="inputAsset" className="form-control" placeholder="Enter a number" value={this.state.inputAsset} onChange={this.handleAssetChange.bind(this)}></textarea>
                 </div>
                 <br/>
                 <div>

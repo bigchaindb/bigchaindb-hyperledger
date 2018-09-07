@@ -50,7 +50,7 @@ export class OracleService {
      * @memberof OracleService
      */
     saveOracleResponse(oracleResponseDto: OracleResponseDto): Promise<InvokeResult> {
-        return this.requestHelper.invokeRequest(ChainMethod.saveResult, oracleResponseDto.data, 'admin', 'Call_executed',false)
+        return this.requestHelper.invokeRequest(ChainMethod.saveResult, oracleResponseDto, 'admin', 'Call_executed',false)
             .catch((error) => {
                 throw new InternalServerErrorException(error);
             });

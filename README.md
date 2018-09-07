@@ -23,7 +23,6 @@ The directory structure of this project is as below :
 ├── specs/
 │   
 └── ui/
-        
 ```
 
 ### data_job/
@@ -46,7 +45,6 @@ In a real scenario, the chain-code can do pre-processing and create a dynamic ca
 
 ## Installation & Usage
 
-
 ### Prerequisites
 
 * BigchainDB network is up and running
@@ -54,7 +52,7 @@ In a real scenario, the chain-code can do pre-processing and create a dynamic ca
 
 ### Installation
 
-* From new terminal, in `data_job/`, execute `npm install` and then `npm start`. This will post transactions to BigchianDB network. 
+* From new terminal, in `data_job/`, execute `npm install` and then `npm start`. This will post transactions to BigchainDB network.
 
 > **Note** - save transaction id of one of this transaction, so that we can use it later to perform conditional operations from UI.
 
@@ -71,15 +69,10 @@ REACT_APP_CHAINCODE_URL=http://localhost:5000/oracle
 REACT_APP_APPLICATION_INSIGHTS_KEY=<your-app-insights-key>
 
 ```
-* From new terminal, in `ui/`, execute `npm install` and then `npm start`. This will start react application on port 3000. 
 
+* From new terminal, in `ui/`, execute `npm install` and then `npm start`. This will start react application on port 3000.
 
 ### Usage
 
 * In your browser, visit `http://localhost:3000`, you will see UI for this project.
-* In input field `Value`, type `transaction id` which you saved when you posted transactions in BigchainDB from `data_job/`.
-* In input filed `Code Callback`, provide a valid javascript function that takes one input parameter. 
-* Click on Submit. Then this function will be executed at oracle server and data fetched from BigchainDB will be passed to this callback function and the returned result will be sent back to UI via websockets from the oracle.
-
-
-
+* Follow the instructions on the web page.

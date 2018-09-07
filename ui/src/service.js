@@ -6,7 +6,7 @@ export const BDB_API_PATH = `${BDB_SERVER_URL}/api/v1/`;
 
 let conn;
 
-export async function callChaincode(assetId, callback) {
+export async function callChaincode(assetId) {
     const rawResponse = await fetch(process.env.REACT_APP_CHAINCODE_URL, {
         method: 'POST',
         headers: {
@@ -14,9 +14,8 @@ export async function callChaincode(assetId, callback) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            assetId,
-            callback
-            })
+            assetId
+        })
     });
 
     const content = await rawResponse.json();

@@ -171,7 +171,7 @@ export abstract class ChainService {
     }
 
     /**
-     * Listen and wait for transaction comitting on peer
+     * Listen and wait for transaction committing on peer
      *
      * @param transactionID
      * @returns {Promise<any>}
@@ -210,7 +210,7 @@ export abstract class ChainService {
     }
 
     /**
-     * Listen and wait for transaction comitting on peer
+     * Listen and wait for transaction committing on peer
      *
      * @param ccEvent
      * @returns {Promise<any>}
