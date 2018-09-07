@@ -1,8 +1,8 @@
 # Bdb-Hyperledger-Oracle API Spec
 
-### 1. Post Oracle Querry
+## Post Oracle Query
 
-Creates a company asset in the platform and returns assetId of company transaction. Asset is owned by publicKey sent in with other data on company creation.
+Takes an asset id and a callback as input. Fetches th respective asset from BigchainDB. Then runs the callback with asset.data as an input.
 
 **Endpoint:** POST `/oraclequery`
 
