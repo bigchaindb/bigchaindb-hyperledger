@@ -21,11 +21,6 @@ services:
       - redis
     command: npm run start
 
-  chainservice:
-    build:
-      context: ./hyperledger-chainservice
-      dockerfile: ./Dockerfile
-
   redis:
     image: redis:alpine
     ports:
