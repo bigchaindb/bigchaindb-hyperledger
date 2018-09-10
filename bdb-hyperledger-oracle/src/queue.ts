@@ -63,12 +63,20 @@ export default class Queue {
         });
         logger("Processed callback for " + job.data.query);
 
-        request.post({ url: process.env.CHAINCODE_URL + "/oracle/response", json: { result: result } }, function(reqError, reqEesponse, reqBody) {
+        const body = {
+          data: {
+            assetData: assetData,
+            status: "processed",
+            id: job.data.query
+          }
+        }
+
+        request.post({ url: process.env.CHAINCODE_URL + "/oracle/response", json: { result: body } }, function (reqError, response, body) {
           if (!reqError) {
             logger("Result sent for " + job.data.query);
             done({ status: "success" });
           } else {
-            logger("Chaincode url not reached for "  + job.data.query + ". Error: " + reqError);
+            logger("Chaincode url not reached for " + job.data.query + ". Error: " + reqError);
             done({ status: "error" });
           }
         });
@@ -76,7 +84,6 @@ export default class Queue {
       catch (error) {
         done({ status: "error" });
       }
-
     });
   }
 

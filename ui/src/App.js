@@ -42,7 +42,8 @@ class App extends Component {
       event.preventDefault();
       const keyPair = getKeypairFromSeed(this.state.inputPassphrase);
       const asset = {
-        number: parseInt(this.state.inputAsset.toString())
+        number: parseInt(this.state.inputAsset.toString()),
+        timestamp: Date.now()
       }
       const tx = await createNewAsset(keyPair, asset, null);
       console.log(tx);
