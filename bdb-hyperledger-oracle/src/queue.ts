@@ -64,14 +64,12 @@ export default class Queue {
         logger("Processed callback for " + job.data.query);
 
         const body = {
-          data: {
-            assetData: assetData,
+          assetData: assetData,
             status: "processed",
             id: job.data.query
-          }
         }
 
-        request.post({ url: process.env.CHAINCODE_URL + "/oracle/response", json: { result: body } }, function (reqError, response, body) {
+        request.post({ url: process.env.CHAINCODE_URL + "/oracle/response", json: { data: body } }, function (reqError, response, body) {
           if (!reqError) {
             logger("Result sent for " + job.data.query);
             done({ status: "success" });
