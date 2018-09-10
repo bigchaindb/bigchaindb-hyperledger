@@ -1,16 +1,20 @@
-# BigchainDB - HyperLedger Fabric Integration
+# BigchainDB - Hyperledger Fabric Integration
 
 ## Problem Statement
 
-How to use BigchainDB data in HyperLedger chaincode? What can be integration patterns to make this happen?
+How to use BigchainDB data in Hyperledger chaincode? What can be integration patterns to make this happen?
 
-## Solution Approach
+## Solution
+
+The approach is based on and similar to how Oraclize works for Ethereum.
+
+### Architecture
+
+The following diagram depicts the high-level architecture of the solution.
 
 ![arch diagram](./hld.png "hld diagram")
 
-The solution approach is based on and similar to how Oraclize works for Ethereum. Following are the steps involved,
-
-## Components
+### Components
 
 1. DApp Frontend
 1. Chain Service - connects frontend to Hyperledger Fabric chaincode
@@ -18,7 +22,7 @@ The solution approach is based on and similar to how Oraclize works for Ethereum
 1. Oracle - connects Hyperledger Fabric chaincode to BigchainDB
 1. BigchainDB - has the data
 
-## Workflow
+### Workflow
 
 1. DApp calls the chain service with the asset id of the BigchainDB asset to be processed by Hyperledger chaincode.
 1. Hyperledger Fabric chaincode is called by chain service. This chain code has the built in functionality to call a REST API from one of its functions.
