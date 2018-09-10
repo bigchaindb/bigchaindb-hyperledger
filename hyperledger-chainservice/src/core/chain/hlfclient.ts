@@ -93,15 +93,15 @@ export class HlfClient extends ChainService {
                     Log.hlf.info(HlfInfo.REGISTERING_TRANSACTION_EVENT);
 
                     let sendPromise = this.hlfConfig.channel.sendTransaction(request);
-                    let txPromise = this.registerTxEvent(result.txHash);
-                    let ccPromise = new Promise(resolve => {
-                        resolve();
-                    });
-                    if (eventName !== '' ){
-                        ccPromise = this.registerCCEvent(eventName);
-                    }
+                    // let txPromise = this.registerTxEvent(result.txHash);
+                    // let ccPromise = new Promise(resolve => {
+                    //     resolve();
+                    // });
+                    // if (eventName !== '' ){
+                    //     ccPromise = this.registerCCEvent(eventName);
+                    // }
                     
-                    return Promise.all([sendPromise, txPromise, ccPromise]);
+                    return Promise.all([sendPromise]);
                     // return Promise.all([sendPromise, txPromise]);
                 } else {
 
@@ -124,9 +124,9 @@ export class HlfClient extends ChainService {
                     Log.hlf.error('Failed to order the transaction. Error code: ' + results[0].status);
                 }
 
-                if (!results || (results && results[1] && results[1].event_status !== 'VALID')) {
-                    Log.hlf.error('Transaction failed to be committed to the ledger due to ::' + results[1].event_status);
-                }
+                // if (!results || (results && results[1] && results[1].event_status !== 'VALID')) {
+                //     Log.hlf.error('Transaction failed to be committed to the ledger due to ::' + results[1].event_status);
+                // }
             });
     }
 }
