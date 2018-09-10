@@ -41,23 +41,24 @@ export class MyChaincode extends Chaincode {
 
         let retrievedCallback = await stubHelper.getStateAsObject('CALLBACK1');
         console.log('CALLBACK');
-        console.log(retrievedCallback);
-
-        let body = {query: verifiedArgs.assetId, callback: retrievedCallback};
-        console.log(verifiedArgs);
+        console.log('Ret Callback:  ', retrievedCallback['callback']);
+        let callbackExtract = String(retrievedCallback['callback']);
+        console.log('extract ', callbackExtract);
+        let body = { query: verifiedArgs.assetId, callback: callbackExtract };
+        console.log(JSON.stringify(body));
         const url = bdbOracleUrl + 'oraclequery';
-            
-        axios.post(url, body);
+        console.log(url);
+        await axios.post(url, body);
     }
 
     async saveResult(stubHelper: StubHelper, args: string[]) {
         console.log(args);
         let response = JSON.parse(args[0]);
-        
-            console.log(response.data.assetData);
-            console.log(response.data.status);
-            stubHelper.setEvent('Call_executed', response.data);
-       
+
+        console.log(response.data.assetData);
+        console.log(response.data.status);
+        stubHelper.setEvent('Call_executed', response.data);
+
         await stubHelper.putState(response.data.id, response.data);
     }
 }
