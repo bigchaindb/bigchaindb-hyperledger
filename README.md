@@ -4,7 +4,9 @@ This project is the outcome of a mini-hackathon in which the BigchainDB and TheL
 
 ## Design
 
- [High Level Design specs](./specs/design.md)
+ ![hld](./specs/hld.png)
+
+**The high level design specification is available at - [./specs/design.md](./specs/design.md)**
 
 ## Directory Structure
 
@@ -31,15 +33,15 @@ This is a node based cron job that posts transactions to BigchainDB network.
 
 ### ui/
 
-This is a react based app to access REST API of Hyperledger Fabric chain-code service. This UI is for demo usage of the BigchainDB-Hyperledger Fabric oracle. The following form first we create a BigchainDB asset by providing passphrase and asset data. Once the asset is created, the asset id is passed to a Hyperledger chain-code which internally passes it to the oracle. The oracle then queries BigchainDB with the asset id and executes a callback passed by the Hyperledger chain-code. The oracle then sends back the results to Hyperledger chain-code.
+This is a react based app to access REST API of Hyperledger Fabric chain service. This UI is for demo usage of the BigchainDB-Hyperledger Fabric oracle. The web form first creates a BigchainDB asset by taking passphrase and asset data (a number). Once the asset is created, the asset id is passed to a Hyperledger chain-code which internally passes it to the oracle. The oracle then queries BigchainDB with the asset id and executes a callback passed by the Hyperledger chain-code. The oracle then sends back the results to Hyperledger chain service.
 
 ### hyperledger-chainservice/
 
-This is hyperledger chain-service that interacts with the fabric network and sends POST request to REST api exposed by `bdb-hyperledger-oracle/`
+This is hyperledger chain-service that interacts with the fabric network.
 
 ### bdb-hyperledger-oracle/
 
-This project is an express-websocket API that functions as an oracle between Hyperledger Fabric (here in `hyperledger-chainservice/`) and BigchainDB.
+This project is an express API that functions as an oracle between Hyperledger Fabric (here in `hyperledger-chainservice/`) and BigchainDB.
 
 In a real scenario, the chain-code can do pre-processing and create a dynamic callback before sending the request to the oracle.
 
@@ -48,29 +50,19 @@ In a real scenario, the chain-code can do pre-processing and create a dynamic ca
 ### Prerequisites
 
 * BigchainDB network is up and running
-* Hyperledger network is up and running
+* Hyperledger network is up and running (to run the Hyperledger fabric network, run the `startFabric.sh` script in the `/hyperledger-network/scripts` directory)
 
 ### Installation
 
-* From new terminal, in `data_job/`, execute `npm install` and then `npm start`. This will post transactions to BigchainDB network.
+* Create `.env` files in the root of each of oracle, chainservice and ui based on their `.env.example` files, respectively.
 
-> **Note** - save transaction id of one of this transaction, so that we can use it later to perform conditional operations from UI.
-
-* In `bdb-hyperledger-oracle/src/config/config.ts`, replace value of `bdb.url` with bigchaindb node url. 
-* From new terminal, in `bdb-hyperledger-oracle/`, execute `npm install` and then `npm start`. This will start BigchainDB-Hyperledger Oracle Server and expose REST API.
-* In `hyperledger-chainservice/` folder, create an `.env` file with following keys. The sample `.env` file can be found [here](/hyperledger-chainservice/.env.example).
+* Update the `.env` values as per your network and node IP addresses and ports.
 
 * From new terminal, in `hyperledger-chainservice/` execute `yarn` and `yarn run start:watch`. This will start Hyperledger-chaincode REST server to be consumed by UI.
-* In `ui/` folder, create an `.env` file with following keys - 
-
-```
-REACT_APP_PORT=5000
-REACT_APP_CHAINCODE_URL=http://localhost:5000/oracle
-REACT_APP_APPLICATION_INSIGHTS_KEY=<your-app-insights-key>
-
-```
 
 * From new terminal, in `ui/`, execute `npm install` and then `npm start`. This will start react application on port 3000.
+
+* From another new terminal, run `docker-compose build` and `docker-compose up` from the root directory. This will bring up the oracle.
 
 ### Usage
 

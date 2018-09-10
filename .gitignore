@@ -80,6 +80,7 @@ test-reports/
 
 vendor
 .idea
+.env
 
 src/common/config/creds/*
 coverage
