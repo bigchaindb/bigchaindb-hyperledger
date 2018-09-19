@@ -10,14 +10,12 @@ RUN npm install yarn -g
 
 WORKDIR /app
 
-COPY package.json .
+COPY . .
 
 RUN yarn
 
 ADD ./nginx.conf /etc/nginx/nginx.conf
 
-COPY . .
-
-RUN yarn build:nonproduction
+RUN yarn build
 
 CMD ["nginx", "-g", "daemon off;"]
