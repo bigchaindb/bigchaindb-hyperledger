@@ -1,3 +1,6 @@
+// config
+require("dotenv").config();
+
 import { createServer } from "http";
 import express from "express";
 import compression from "compression";
@@ -5,9 +8,6 @@ import morgan from "morgan";
 import * as cluster from "cluster";
 import Queue from "./queue";
 import { handleErrors } from "./middlewares/errorHandler";
-
-// config
-require("dotenv").config();
 
 // routes
 import BdbRouter from "./routes/BdbRouter";

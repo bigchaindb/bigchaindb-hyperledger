@@ -14,7 +14,7 @@ const queue = new Bull("queue", {
     stalledInterval: 0
   }
 });
-const conncurency = 2;
+const conncurency = 1;
 
 const appInsights = require("applicationinsights");
 appInsights.setup(process.env.APPINSIGHTS_KEY).start();
@@ -27,17 +27,19 @@ const bigchaindbModel = new BigchainDBModel(process.env.BDB_URL, process.env.BDB
 export default class Queue {
 
   add(data) {
+    console.log("Adding to queue", data);
     queue.add(data);
   }
 
   process() {
+    console.debug("Processing thread started");
     queue.process(conncurency, async (job, done) => {
-      // console.log("process", job.data);
+      console.log("Processing", job.data);
       // done();
 
       try {
         // find Asset from BigchainDB
-        logger("Getting data for " + job.data.query);
+        console.log("Getting data for " + job.data.query);
         appInsights.defaultClient.trackEvent({
           name: "OracleBDBQuery",
           properties: { assetId: job.data.query }
@@ -48,7 +50,7 @@ export default class Queue {
         if (!assetData) {
           throw new Error(`No Data available for query ${job.data.query}`);
         }
-        logger("Processing callback for " + job.data.query);
+        console.log("Processing callback for " + job.data.query);
 
         appInsights.defaultClient.trackEvent({
           name: "OracleBDBData",
@@ -61,25 +63,26 @@ export default class Queue {
           name: "OracleProcessCallback",
           properties: { assetId: job.data.query, callback: job.data.callback, data: assetData, result: result }
         });
-        logger("Processed callback for " + job.data.query);
+        console.log("Processed callback for " + job.data.query);
 
         const body = {
           assetData: assetData,
-            status: "processed",
-            id: job.data.query
-        }
+          status: "processed",
+          id: job.data.query
+        };
 
         request.post({ url: process.env.CHAINCODE_URL + "/oracle/response", json: { data: body } }, function (reqError, response, body) {
           if (!reqError) {
-            logger("Result sent for " + job.data.query);
+            console.log("Result sent for " + job.data.query);
             done({ status: "success" });
           } else {
-            logger("Chaincode url not reached for " + job.data.query + ". Error: " + reqError);
+            console.log("Chaincode url not reached for " + job.data.query + ". Error: " + reqError);
             done({ status: "error" });
           }
         });
       }
       catch (error) {
+        console.log("error", error);
         done({ status: "error" });
       }
     });

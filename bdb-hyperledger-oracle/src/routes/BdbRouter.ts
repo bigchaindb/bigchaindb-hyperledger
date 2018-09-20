@@ -20,6 +20,7 @@ export class BdbRouter {
   }
 
   public async bdb(req: Request, res: Response, next: NextFunction) {
+    console.log("Route called");
     queue.add(req.body);
     res.status(202).send();
   }

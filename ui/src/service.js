@@ -1,7 +1,7 @@
 import * as driver from 'bigchaindb-driver';
 import * as bip39 from 'bip39';
 
-export const BDB_SERVER_URL = process.env.REACT_APP_BDB_SERVER_URL || 'http://localhost:9984';
+export const BDB_SERVER_URL = process.env.REACT_APP_BDB_SERVER_URL || 'http://13.81.13.189:32815';
 export const BDB_API_PATH = `${BDB_SERVER_URL}/api/v1/`;
 
 let conn;
